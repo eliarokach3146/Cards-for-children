@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>××©××§ ××§××¤×× â¨</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    /* ââ Reset & Base ââââââââââââââââââââââââââââââââ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --card-radius: 18px;
+      --gap: 14px;
+    }
+
+    body {
+      font-family: 'Heebo', sans-serif;
+      min-height: 100vh;
+      direction: rtl;
+      overflow-x: hidden;
+      background-color: #08091a;
+      background-image:
+        radial-gradient(ellipse 80% 50% at 20% -5%,  rgba(99, 55, 200, 0.38) 0%, transparent 60%),
+        radial-gradient(ellipse 70% 45% at 85% 110%, rgba(20, 80, 160, 0.32) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 60% at 50% 50%,  rgba(14, 12, 45, 0.9)  0%, transparent 100%);
+    }
+
+    /* ââ Stars âââââââââââââââââââââââââââââââââââââââ */
+    #stars {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .star {
+      position: absolute;
+      border-radius: 50%;
+      background: white;
+      animation: twinkle var(--d, 3s) ease-in-out infinite var(--delay, 0s);
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.15; transform: scale(1); }
+      50%       { opacity: 0.95; transform: scale(1.4); }
+    }
+
+    /* ââ Container âââââââââââââââââââââââââââââââââââ */
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 32px 22px 52px;
+    }
+
+    /* ââ Header ââââââââââââââââââââââââââââââââââââââ */
+    .header {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .title {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 900;
+      line-height: 1.15;
+      display: inline-block;
+      background: linear-gradient(130deg, #ffe066 0%, #ffb347 45%, #ffe066 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 28px rgba(255, 190, 50, 0.45));
+      letter-spacing: -0.5px;
+    }
+
+    .sub {
+      margin-top: 10px;
+      color: rgba(255,255,255,0.38);
+      font-size: 0.97rem;
+      font-weight: 400;
+    }
+
+    /* ââ Tabs ââââââââââââââââââââââââââââââââââââââââ */
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 26px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 11px 26px;
+      border: 2px solid rgba(255,255,255,0.1);
+      border-radius: 50px;
+      font-family: 'Heebo', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+      background: rgba(255,255,255,0.05);
+      color: rgba(255,255,255,0.45);
+      backdrop-filter: blur(10px);
+    }
+
+    .tab-btn:hover:not(.active) {
+      color: rgba(255,255,255,0.85);
+      border-color: rgba(255,255,255,0.22);
+      transform: translateY(-2px);
+    }
+
+    .tab-btn[data-tab="0"].active {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      border-color: transparent;
+      color: white;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 28px rgba(245,158,11,0.48), 0 0 0 1px rgba(255,200,80,0.25);
+    }
+
+    .tab-btn[data-tab="1"].active {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      border-color: transparent;
+      color: white;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 28px rgba(239,68,68,0.48), 0 0 0 1px rgba(255,130,130,0.25);
+    }
+
+    .tab-btn[data-tab="2"].active {
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      border-color: transparent;
+      color: white;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 28px rgba(59,130,246,0.48), 0 0 0 1px rgba(100,160,255,0.25);
+    }
+
+    /* ââ Tab Panes âââââââââââââââââââââââââââââââââââ */
+    .tab-pane { display: none; }
+
+    .tab-pane.active {
+      display: block;
+      animation: paneIn 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    @keyframes paneIn {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ââ Progress ââââââââââââââââââââââââââââââââââââ */
+    .progress-row {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      margin-bottom: 18px;
+      padding: 0 2px;
+    }
+
+    .progress-label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.38);
+      white-space: nowrap;
+    }
+
+    .progress-track {
+      flex: 1;
+      height: 5px;
+      background: rgba(255,255,255,0.07);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 10px;
+      background: linear-gradient(90deg, #a78bfa, #60a5fa);
+      transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 0 8px rgba(167,139,250,0.65);
+    }
+
+    .progress-num {
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: rgba(255,255,255,0.5);
+      white-space: nowrap;
+      min-width: 36px;
+      text-align: left;
+    }
+
+    /* ââ Grid ââââââââââââââââââââââââââââââââââââââââ */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: var(--gap);
+    }
+
+    /* ââ Card Wrapper ââââââââââââââââââââââââââââââââ */
+    .card-wrap {
+      perspective: 1100px;
+      height: 178px;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .card-wrap.opened { cursor: default; }
+
+    /* checkmark badge */
+    .card-wrap.opened::after {
+      content: 'â';
+      position: absolute;
+      top: -9px;
+      left: -9px;
+      width: 27px;
+      height: 27px;
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+      border-radius: 50%;
+      font-size: 0.78rem;
+      font-weight: 900;
+      line-height: 27px;
+      text-align: center;
+      box-shadow: 0 3px 12px rgba(16,185,129,0.65);
+      z-index: 20;
+      animation: badgePop 0.45s cubic-bezier(0.34,1.56,0.64,1) 0.45s both;
+    }
+
+    @keyframes badgePop {
+      from { transform: scale(0); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+
+    /* ââ Card Inner (flip container) âââââââââââââââââ */
+    .card-inner {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.72s cubic-bezier(0.45, 0.05, 0.12, 1.0);
+      border-radius: var(--card-radius);
+    }
+
+    .card-wrap:not(.opened):hover .card-inner {
+      transform: translateY(-7px) rotateX(4deg) scale(1.02);
+    }
+
+    .card-wrap.opened .card-inner {
+      transform: rotateY(180deg);
+    }
+
+    /* ââ Card Faces ââââââââââââââââââââââââââââââââââ */
+    .face {
+      position: absolute;
+      inset: 0;
+      border-radius: var(--card-radius);
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Back face */
+    .face-back {
+      overflow: hidden;
+      box-shadow:
+        0 12px 40px rgba(0,0,0,0.55),
+        inset 0 1px 0 rgba(255,255,255,0.28),
+        inset 0 -1px 0 rgba(0,0,0,0.25);
+    }
+
+    /* Diagonal stripe pattern */
+    .face-back::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        -48deg,
+        rgba(255,255,255,0.045) 0px,
+        rgba(255,255,255,0.045) 1px,
+        transparent 1px,
+        transparent 13px
+      );
+      z-index: 1;
+    }
+
+    /* Specular highlight */
+    .face-back::after {
+      content: '';
+      position: absolute;
+      top: -35%;
+      right: -25%;
+      width: 65%;
+      height: 75%;
+      background: radial-gradient(ellipse, rgba(255,255,255,0.2) 0%, transparent 70%);
+      border-radius: 50%;
+      z-index: 1;
+    }
+
+    .back-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .back-emoji {
+      font-size: 2.3rem;
+      line-height: 1;
+      filter: drop-shadow(0 3px 8px rgba(0,0,0,0.45));
+    }
+
+    .back-label {
+      font-size: 1.08rem;
+      font-weight: 900;
+      color: white;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.5);
+      background: rgba(0,0,0,0.22);
+      padding: 5px 18px;
+      border-radius: 30px;
+      border: 1px solid rgba(255,255,255,0.22);
+      letter-spacing: 0.4px;
+    }
+
+    /* Front face */
+    .face-front {
+      background: #ffffff;
+      transform: rotateY(180deg);
+      padding: 16px 13px;
+      gap: 0;
+      box-shadow:
+        0 12px 40px rgba(0,0,0,0.55),
+        inset 0 1px 0 rgba(255,255,255,1);
+    }
+
+    .front-icon {
+      font-size: 1.55rem;
+      line-height: 1;
+      margin-bottom: 9px;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.12));
+    }
+
+    .front-question {
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: #16173a;
+      line-height: 1.55;
+      text-align: center;
+      direction: rtl;
+    }
+
+    /* ââ Sparkle Particles âââââââââââââââââââââââââââ */
+    .sparkle-burst {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 30;
+    }
+
+    .sp {
+      position: absolute;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      animation: sparkleOut 0.65s ease-out var(--sd, 0s) forwards;
+    }
+
+    @keyframes sparkleOut {
+      0%   { transform: translate(-50%,-50%) scale(1.2); opacity: 1; }
+      100% { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0); opacity: 0; }
+    }
+
+    /* ââ Footer ââââââââââââââââââââââââââââââââââââââ */
+    .footer {
+      display: flex;
+      justify-content: center;
+      margin-top: 34px;
+    }
+
+    .new-game-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px 42px;
+      background: rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.8);
+      border: 2px solid rgba(255,255,255,0.14);
+      border-radius: 50px;
+      font-family: 'Heebo', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      backdrop-filter: blur(12px);
+      transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    }
+
+    .new-game-btn:hover {
+      background: rgba(255,255,255,0.12);
+      border-color: rgba(255,255,255,0.28);
+      color: white;
+      transform: translateY(-4px) scale(1.03);
+      box-shadow: 0 14px 40px rgba(0,0,0,0.35);
+    }
+
+    .new-game-btn:active { transform: translateY(-1px) scale(1); }
+
+    .spin-icon {
+      display: inline-block;
+      transition: transform 0.6s cubic-bezier(0.34,1.56,0.64,1);
+    }
+
+    .new-game-btn:hover .spin-icon { transform: rotate(200deg); }
+  </style>
+</head>
+<body>
+
+  <div id="stars"></div>
+
+  <div class="wrap">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="title">â¨ ××©××§ ××§××¤×× â¨</div>
+      <p class="sub">×××¨× ×§××£ ××¤× ××¦××¢ â ××ª××× ×× ××¡×ª×ª×¨ ×××××¨××</p>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="0" onclick="switchTab(0)">â­ ××××¨××ª ××××£</button>
+      <button class="tab-btn"        data-tab="1" onclick="switchTab(1)">â¤ï¸ ×¢××× ××¨××©××ª</button>
+      <button class="tab-btn"        data-tab="2" onclick="switchTab(2)">ð¤ ×××¨×× ×××©×¤××</button>
+    </div>
+
+    <!-- Pane 0 -->
+    <div id="pane-0" class="tab-pane active">
+      <div class="progress-row">
+        <span class="progress-label">××ª×§××××ª:</span>
+        <div class="progress-track"><div class="progress-fill" id="fill-0" style="width:0%"></div></div>
+        <span class="progress-num" id="num-0">0 / 10</span>
+      </div>
+      <div class="grid" id="grid-0"></div>
+    </div>
+
+    <!-- Pane 1 -->
+    <div id="pane-1" class="tab-pane">
+      <div class="progress-row">
+        <span class="progress-label">××ª×§××××ª:</span>
+        <div class="progress-track"><div class="progress-fill" id="fill-1" style="width:0%"></div></div>
+        <span class="progress-num" id="num-1">0 / 10</span>
+      </div>
+      <div class="grid" id="grid-1"></div>
+    </div>
+
+    <!-- Pane 2 -->
+    <div id="pane-2" class="tab-pane">
+      <div class="progress-row">
+        <span class="progress-label">××ª×§××××ª:</span>
+        <div class="progress-track"><div class="progress-fill" id="fill-2" style="width:0%"></div></div>
+        <span class="progress-num" id="num-2">0 / 10</span>
+      </div>
+      <div class="grid" id="grid-2"></div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <button class="new-game-btn" onclick="newGame()">
+        <span class="spin-icon">ð</span> ××©××§ ×××© â ×¢×¨××× ××××©
+      </button>
+    </div>
+
+  </div>
+
+  <script>
+    /* ââ Data ââââââââââââââââââââââââââââââââââââââââ */
+
+    const COLORS = [
+      { name: '××××',   bg: 'linear-gradient(145deg, #ff6b6b 0%, #b91c1c 100%)' },
+      { name: '××ª××',   bg: 'linear-gradient(145deg, #fb923c 0%, #c2410c 100%)' },
+      { name: '×¦×××',   bg: 'linear-gradient(145deg, #fde047 0%, #ca8a04 100%)' },
+      { name: '××¨××§',   bg: 'linear-gradient(145deg, #4ade80 0%, #15803d 100%)' },
+      { name: '××××',   bg: 'linear-gradient(145deg, #60a5fa 0%, #1d4ed8 100%)' },
+      { name: '×¡×××',   bg: 'linear-gradient(145deg, #c084fc 0%, #7e22ce 100%)' },
+      { name: '××¨××',   bg: 'linear-gradient(145deg, #f472b6 0%, #be185d 100%)' },
+      { name: '×ª×××ª',   bg: 'linear-gradient(145deg, #67e8f9 0%, #0e7490 100%)' },
+      { name: '×××¨×§××', bg: 'linear-gradient(145deg, #2dd4bf 0%, #0f766e 100%)' },
+      { name: '×××',    bg: 'linear-gradient(145deg, #fbbf24 0%, #92400e 100%)' },
+    ];
+
+    const SPARKLE_PALETTE = ['#fde047','#f472b6','#60a5fa','#c084fc','#4ade80','#fb923c','#ffffff'];
+
+    const QUESTIONS = [
+      /* 0 â ××××¨××ª */
+      [
+        '×× ××××¨ ×©××× ××¦×××§ ×××ª× ××¢×××?',
+        '×× ××××ª ×××× ×××××ª ××× ×××× ×××, ×××× ××× ××××ª ××××¨?',
+        '×× ××××× ×©××ª× ××× ×××× ××××× ×××× ×××××ª?',
+        '×××× ×××-×¢× ××××ª ×¨××¦× ×©×××× ××?',
+        '××× ××¦××¢ ×©×××¨× ×× ×××¨×××© ××× ×©××?',
+        '×× ××××ª ×××¦× ×ª×××ª ×××¦×¨, ×× ××××ª ×¨××¦× ×©×××× ××ª×××?',
+        '×× ×××§×× ××××× ×¢××× ××××ª×¨ ××××ª?',
+        '×××× ×©××¨ ×ª××× ×¢××©× ×× ××©×§ ××¨×§××?',
+        '×× ××××¨ ×©××ª× ××× ××× ××?',
+        '×× ××××ª ×××× ××××¦×× ×× ×××©, ××× ××× ×§××¨××× ×× ××× ××× ×¢××©×× ××?',
+      ],
+      /* 1 â ×¨××©××ª */
+      [
+        '×× ××××¨ ×©××× ×¢×××¨ ×× ××××¨××¢ ××©××ª× ×××¢×¡?',
+        '××ª× ××¤×¢× ××××¨×× × ××¨××©×ª ×××© ××× ××¢×¦××?',
+        '××× × ×¨×× ××¤×¨×¦××£ ×©×× ××©××ª× ×××¤×ª×¢?',
+        '×× ××××¨ ×©××× ××¢××× ×××ª× ××©××ª× ×¢×¦××?',
+        '×¡×¤×¨ ×¢× ××©×× ×©×¤×¢× ××¤××× ×××ª× ××××× ×××¨ ××.',
+        '××× ××ª× ××¨×××© ××©×××©×× × ××ª× ×× ×××××§?',
+        '×× ×××¨× ×× ×××¨×××© ×××× (××× ××ª×× ×××¦×¨)?',
+        '××× ××© ×¨×× ××¡××× ×©×××¨× ×× ×××¨×××© × ×¢××?',
+        '×× ××ª× ×¢××©× ××©××ª× ××¨×××© ×©××ª× ×××© ××ª×¨××© ×××©××?',
+        '×× ××××ª ×××× ××¦×××¢ ××ª ××× ×©×× ××××, ××××× ×¦××¢ ××× ×××?',
+      ],
+      /* 2 â ×××¨×× */
+      [
+        '×× ××××¨ ××× × ××× ×©×××©×× ×××¨ ×× ××××¨×× ×?',
+        '×× ×××¤× ×××©×× ×××××ª "×××¨ ×××" ××¢×× ××?',
+        '×× ××××¨ ×©××ª× ××× ×××× ××¢×©××ª ×¢× ××× ×× ×××?',
+        '×× ××××ª ×××× ××ª×ª ××ª× × ×××ª× × ×¨×××ª ××××©××, ×× ××××ª × ××ª×?',
+        '××× ××ª× ×××× ×©×¢×××¨×× ×× ××©×§×©× ××?',
+        '×× ××××¨ ××× × ××× ×©×¢×©××ª ××©××× ×××©×× ×××¨?',
+        '××× ××××ª ×¨××¦× ××××× "×ª×××" ×××× ××××?',
+        '×× ××××¨ ××××× ×¢××× ××¢×©××ª ×××¤×¡×§× ××××ª ××¡×¤×¨ ×× ×××?',
+        '×× ××××ª ×¨××× ×××¨ ×©×××©× ×××, ×× ××××ª ××××¨ ××?',
+        '×× ××××¨ ×©××ª× ××× ×××× ×× × (×××©×¤×× ×©×× ×)?',
+      ],
+    ];
+
+    const ICONS    = ['â­', 'â¤ï¸', 'ð¤'];
+    const opened   = [0, 0, 0];
+
+    /* ââ Helpers âââââââââââââââââââââââââââââââââââââ */
+
+    function shuffle(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function rand(min, max) { return Math.random() * (max - min) + min; }
+
+    /* ââ Stars âââââââââââââââââââââââââââââââââââââââ */
+
+    (function buildStars() {
+      const c = document.getElementById('stars');
+      for (let i = 0; i < 90; i++) {
+        const s = document.createElement('div');
+        s.className = 'star';
+        const sz = rand(0.6, 2.8);
+        s.style.cssText = [
+          `width:${sz}px`, `height:${sz}px`,
+          `top:${rand(0,100)}%`, `left:${rand(0,100)}%`,
+          `--d:${rand(2,5)}s`, `--delay:${rand(0,5)}s`,
+        ].join(';');
+        c.appendChild(s);
+      }
+    })();
+
+    /* ââ Sparkle âââââââââââââââââââââââââââââââââââââ */
+
+    function sparkle(wrapper) {
+      const burst = document.createElement('div');
+      burst.className = 'sparkle-burst';
+      const N = 12;
+      for (let i = 0; i < N; i++) {
+        const p   = document.createElement('div');
+        p.className = 'sp';
+        const angle = (360 / N) * i + rand(-10, 10);
+        const dist  = rand(40, 65);
+        const dx    = Math.cos(angle * Math.PI / 180) * dist;
+        const dy    = Math.sin(angle * Math.PI / 180) * dist;
+        const color = SPARKLE_PALETTE[Math.floor(Math.random() * SPARKLE_PALETTE.length)];
+        p.style.cssText = `background:${color};--dx:${dx}px;--dy:${dy}px;--sd:${rand(0,0.12)}s`;
+        burst.appendChild(p);
+      }
+      wrapper.appendChild(burst);
+      setTimeout(() => burst.remove(), 900);
+    }
+
+    /* ââ Progress ââââââââââââââââââââââââââââââââââââ */
+
+    function updateProgress(ci) {
+      const n = opened[ci];
+      document.getElementById(`fill-${ci}`).style.width = `${n * 10}%`;
+      document.getElementById(`num-${ci}`).textContent  = `${n} / 10`;
+    }
+
+    /* ââ Build Grid ââââââââââââââââââââââââââââââââââ */
+
+    function buildGrid(ci) {
+      const grid = document.getElementById(`grid-${ci}`);
+      grid.innerHTML = '';
+      opened[ci] = 0;
+      updateProgress(ci);
+
+      const colors = shuffle(COLORS);
+      const qs     = shuffle(QUESTIONS[ci]);
+      const icon   = ICONS[ci];
+
+      qs.forEach((q, i) => {
+        const col  = colors[i];
+        const wrap = document.createElement('div');
+        wrap.className = 'card-wrap';
+        wrap.innerHTML = `
+          <div class="card-inner">
+            <div class="face face-back" style="background:${col.bg}">
+              <div class="back-content">
+                <div class="back-emoji">${icon}</div>
+                <div class="back-label">${col.name}</div>
+              </div>
+            </div>
+            <div class="face face-front">
+              <div class="front-icon">${icon}</div>
+              <div class="front-question">${q}</div>
+            </div>
+          </div>`;
+
+        wrap.addEventListener('click', () => {
+          if (wrap.classList.contains('opened')) return;
+          wrap.classList.add('opened');
+          sparkle(wrap);
+          opened[ci]++;
+          updateProgress(ci);
+        });
+
+        grid.appendChild(wrap);
+      });
+    }
+
+    /* ââ Tab Switching âââââââââââââââââââââââââââââââ */
+
+    function switchTab(idx) {
+      document.querySelectorAll('.tab-pane').forEach((p, i) => p.classList.toggle('active', i === idx));
+      document.querySelectorAll('.tab-btn').forEach( (b, i) => b.classList.toggle('active', i === idx));
+    }
+
+    /* ââ New Game ââââââââââââââââââââââââââââââââââââ */
+
+    function newGame() { [0, 1, 2].forEach(buildGrid); }
+
+    /* ââ Init ââââââââââââââââââââââââââââââââââââââââ */
+
+    newGame();
+  </script>
+</body>
+</html>
